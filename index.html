@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>收支曲線圖｜學生作業</title>
+  <meta name="description" content="可填寫的收支曲線圖作業" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23fff6cc'/%3E%3Cpath d='M8 46C18 24 29 44 38 25S52 20 57 17' fill='none' stroke='%23111' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <style>
+    :root { --ink:#111; --paper:#fff; --yellow:#ffef52; --soft:#f4f4f1; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#f2f1eb; color:#555; font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; }
+    .sheet { width:min(940px, calc(100% - 28px)); margin:28px auto; padding:24px 44px 38px; background:var(--paper); border-left:8px solid var(--yellow); box-shadow:0 8px 34px #0002; }
+    h1 { display:inline-block; margin:0 0 12px; padding:3px 8px; border:4px solid var(--ink); color:#555; font-weight:500; font-size:32px; line-height:1.1; }
+    h2 { margin:-50px 0 16px 310px; text-align:left; font-size:25px; font-weight:500; }
+    input { border:0; border-bottom:2px solid #777; background:#fffde9; color:#222; font:inherit; text-align:center; outline-offset:3px; }
+    input:focus { outline:3px solid #ffd83d; }
+    .age { width:62px; font-size:18px; }
+    .diagram { position:relative; margin:0 auto 12px; max-width:780px; height:375px; }
+    .diagram svg { display:block; width:100%; height:100%; overflow:visible; }
+    .diagram text { fill:#555; font-size:19px; font-family:inherit; }
+    .age-label { position:absolute; font-size:18px; white-space:nowrap; text-align:center; }
+    .now { left:15%; top:98px; } .retire { left:66%; top:98px; } .life { left:86%; top:122px; }
+    .timeline-label { position:absolute; left:27%; top:254px; font-size:20px; }
+    .timeline-label.bottom { top:320px; }
+    .divider { border:0; border-top:4px dashed var(--ink); margin:12px 20px 26px; }
+    .expenses { display:grid; grid-template-columns:1.25fr 1fr 1.05fr; column-gap:16px; row-gap:7px; font-size:19px; align-items:center; }
+    .expenses label { color:#555; } .formula { white-space:nowrap; text-align:center; } .answer { text-align:right; white-space:nowrap; }
+    .money { width:68px; font-size:18px; } .small { width:50px; } .long { width:95px; }
+    .total { display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:14px; font-size:19px; }
+    output.box { display:inline-flex; align-items:center; justify-content:center; min-width:100px; height:56px; padding:5px 10px; border:4px solid var(--ink); color:#222; font-size:20px; }
+    .salary { border-top:4px dashed var(--ink); border-bottom:4px dashed var(--ink); margin:20px 20px 0; padding:15px 0 11px; font-size:19px; line-height:2.6; }
+    .salary output { display:inline-block; min-width:104px; padding:0 10px; color:#222; border-bottom:2px solid #777; text-align:center; }
+    .actions { display:flex; gap:10px; justify-content:flex-end; margin:20px 0 2px; }
+    button { border:2px solid #222; background:#fff; padding:8px 14px; color:#222; font:inherit; cursor:pointer; } button:hover { background:var(--yellow); }
+    footer { margin-top:22px; padding-top:10px; border-top:1px solid #bbb; color:#777; font-size:14px; display:flex; justify-content:space-between; gap:16px; }
+    @media (max-width:700px) { .sheet{padding:18px 16px 28px;} h1{font-size:26px;} h2{margin:4px 0 6px;font-size:21px;} .diagram{height:330px; transform-origin:top left; } .expenses{grid-template-columns:1fr; gap:5px;}.formula,.answer{text-align:left;padding-left:18px}.salary{margin-inline:0}.age-label{font-size:14px}.timeline-label{font-size:16px}.now{left:13%}.retire{left:65%}.life{left:85%} footer{display:block;} }
+    @media print { body{background:#fff}.sheet{width:100%;margin:0;box-shadow:none;border-left-width:8px}.actions{display:none} }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <h1>收支曲線圖</h1><h2>收入曲線</h2>
+    <section class="diagram" aria-label="收入與支出曲線時間軸">
+      <svg viewBox="0 0 780 375" role="img" aria-label="出生到去世的收入和支出曲線">
+        <line x1="32" y1="216" x2="730" y2="216" stroke="#111" stroke-width="6"/>
+        <path d="M60 216 Q390 71 720 216" fill="none" stroke="#111" stroke-width="5"/>
+        <path d="M215 216 Q315 -24 418 216" fill="none" stroke="#111" stroke-width="5"/>
+        <text x="349" y="112" text-anchor="middle">支出曲線</text>
+        <text x="335" y="198" text-anchor="middle" font-size="24">工作</text><text x="430" y="198" text-anchor="middle" font-size="24">退休</text>
+        <text x="1" y="232">出生</text><text x="730" y="232">去世</text>
+        <line x1="212" y1="234" x2="422" y2="234" stroke="#111" stroke-width="5"/>
+        <polygon points="422,222 444,234 422,246" fill="#111"/>
+        <line x1="212" y1="298" x2="620" y2="298" stroke="#111" stroke-width="5"/>
+        <polygon points="620,286 644,298 620,310" fill="#111"/>
+      </svg>
+      <label class="age-label now">現在年齡<br>（<input class="age" id="currentAge" inputmode="numeric" aria-label="現在年齡">）</label>
+      <label class="age-label retire">退休年齡<br>（<input class="age" id="retirementAge" inputmode="numeric" aria-label="退休年齡">）</label>
+      <label class="age-label life">生存年齡<br>（<input class="age" id="lifeAge" inputmode="numeric" aria-label="生存年齡">）</label>
+      <div class="timeline-label">工作期間共（<output id="workYears">　</output>）年</div>
+      <div class="timeline-label bottom">生活期間共（<output id="lifeYears">　</output>）年</div>
+    </section>
+    <hr class="divider">
+    <section class="expenses" aria-label="支出填寫與計算">
+      <label for="living">生活費</label><div class="formula"><input class="money" id="living" inputmode="decimal"> 萬元/月 X 12個月 X <input class="money small" id="livingYears" inputmode="numeric"> 年 =</div><div class="answer"><output id="livingTotal">　</output> 萬元</div>
+      <label for="education">子女教育費</label><div class="formula"><input class="money" id="education" inputmode="decimal"> 萬元 X <input class="money small" id="educationCount" inputmode="numeric"> 個 =</div><div class="answer"><output id="educationTotal">　</output> 萬元</div>
+      <label for="house">購屋</label><div class="formula"><input class="money" id="house" inputmode="decimal"> 萬元（貸款利息）=</div><div class="answer"><output id="houseTotal">　</output> 萬元</div>
+      <label for="car">買車</label><div class="formula"><input class="money" id="car" inputmode="decimal"> 萬元 X <input class="money small" id="carCount" inputmode="numeric"> 部 =</div><div class="answer"><output id="carTotal">　</output> 萬元</div>
+      <label for="travel">旅遊</label><div class="formula"><input class="money" id="travel" inputmode="decimal"> 萬元 X <input class="money small" id="travelCount" inputmode="numeric"> 次 =</div><div class="answer"><output id="travelTotal">　</output> 萬元</div>
+      <label for="final">人生最後一筆費用</label><div class="formula"><input class="money" id="final" inputmode="decimal"> 萬元 X 1 =</div><div class="answer"><output id="finalTotal">　</output> 萬元</div>
+    </section>
+    <div class="total">總和 <output class="box" id="grandTotal">　</output> 萬元</div>
+    <section class="salary" aria-label="理想月薪計算">
+      達成以上理想生活所需的月薪：<br>
+      （<output id="salaryNumerator">　</output> 萬元）／（<output id="salaryDenominator">　</output>）年＝<output id="salaryYear">　</output> 萬元／年<br>
+      <output id="salaryYear2">　</output> 萬元／12（月）＝<output id="salaryMonth">　</output> 萬元／月
+    </section>
+    <div class="actions"><button type="button" id="clear">清除填答</button><button type="button" onclick="window.print()">列印或另存 PDF</button></div>
+    <footer><span>黃昱仁・執行長・宏匯教育股份有限公司</span></footer>
+  </main>
+  <script>
+    const ids=['currentAge','retirementAge','lifeAge','living','livingYears','education','educationCount','house','car','carCount','travel','travelCount','final'];
+    const n=id=>Number(document.getElementById(id).value)||0;
+    const out=(id,val)=>document.getElementById(id).textContent=val===0?'　':(Number.isInteger(val)?val:val.toFixed(1));
+    function calculate(){
+      const work=Math.max(0,n('retirementAge')-n('currentAge')), life=Math.max(0,n('lifeAge')-n('currentAge'));
+      out('workYears',work); out('lifeYears',life);
+      const values={living:n('living')*12*n('livingYears'),education:n('education')*n('educationCount'),house:n('house'),car:n('car')*n('carCount'),travel:n('travel')*n('travelCount'),final:n('final')};
+      Object.entries(values).forEach(([key,val])=>out(key+'Total',val));
+      const total=Object.values(values).reduce((a,b)=>a+b,0); out('grandTotal',total); out('salaryNumerator',total); out('salaryDenominator',work);
+      const year=work?total/work:0; out('salaryYear',year); out('salaryYear2',year); out('salaryMonth',year/12);
+      localStorage.setItem('income-expense-curve',JSON.stringify(Object.fromEntries(ids.map(id=>[id,document.getElementById(id).value]))));
+    }
+    const saved=JSON.parse(localStorage.getItem('income-expense-curve')||'{}'); ids.forEach(id=>{document.getElementById(id).value=saved[id]||'';document.getElementById(id).addEventListener('input',calculate)});calculate();
+    document.getElementById('clear').addEventListener('click',()=>{ids.forEach(id=>document.getElementById(id).value='');localStorage.removeItem('income-expense-curve');calculate();});
+  </script>
+</body>
+</html>
